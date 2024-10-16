@@ -18,28 +18,31 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashBoardComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
       {
         path: 'usuarios',
         component: UsuarioComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
       {
         path: 'productos',
         component: ProductoComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
-      { path: 'venta', component: VentaComponent, canActivate: [AuthGuard] },
+      {
+        path: 'venta',
+        component: VentaComponent, //canActivate: [AuthGuard]
+      },
       {
         path: 'historial_venta',
         component: HistorialVentaComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
       {
         path: 'reportes',
         component: ReporteComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
     ],
   },
