@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ResponseApi } from '../Interfaces/response-api';
 import { Venta } from '../Interfaces/venta';
+import { CompararVentasDTO } from '../Interfaces/comparar-venta';
+import { MesesDTO } from '../Interfaces/meses';
+import { CompararVentasResponse } from '../Interfaces/response-venta';
+
 
 
 @Injectable({
@@ -27,5 +31,11 @@ export class VentaService {
     return this.http.get<ResponseApi>(`${this.urlApi}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
   }
 
+   // Método actualizado para comparar ventas entre meses
+  compararVentas(meses: MesesDTO[]): Observable<CompararVentasResponse> {
+  return this.http.post<CompararVentasResponse>(`${this.urlApi}/CompararVentas`, meses);
+}
+
+   
 
 }
