@@ -8,6 +8,8 @@ import { Venta } from '../Interfaces/venta';
 import { CompararVentasDTO } from '../Interfaces/comparar-venta';
 import { MesesDTO } from '../Interfaces/meses';
 import { CompararVentasResponse } from '../Interfaces/response-venta';
+import { ComparacionVentasDTO } from '../Interfaces/historial-reporte-comparacion';
+import { Response } from '../Interfaces/response';
 
 
 
@@ -31,11 +33,20 @@ export class VentaService {
     return this.http.get<ResponseApi>(`${this.urlApi}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
   }
 
-   // Método actualizado para comparar ventas entre meses
-  compararVentas(meses: MesesDTO[]): Observable<CompararVentasResponse> {
-  return this.http.post<CompararVentasResponse>(`${this.urlApi}/CompararVentas`, meses);
-}
+  // Método para comparar historial y reporte
+  compararHistorialYReporte(fechaInicio: string, fechaFin: string): Observable<ResponseApi> {
+    return this.http.get<ResponseApi>(`${this.urlApi}CompararHistorialYReporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+  }
 
-   
+  
+
+
+
+
+
+
+
+
+
 
 }

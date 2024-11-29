@@ -60,6 +60,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
       disableClose:true
     }).afterClosed().subscribe(resultado =>{
       if(resultado === "true") this.obtenerUsuarios();
+      console.log(resultado);
     });
   }
 

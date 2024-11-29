@@ -144,111 +144,85 @@
       </mat-grid-tile>
     </mat-grid-list>
 
-    <!-- Sección para comparar ventas -->
-    <mat-card style="margin-top: 20px">
-      <mat-card-content>
-        <h3>Comparar Ventas entre Meses</h3>
-        <form [formGroup]="compararVentasForm" (ngSubmit)="compararVentas()">
-          <mat-grid-list cols="4" rowHeight="80px">
-            <mat-grid-tile [colspan]="2">
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Selecciona Meses</mat-label>
-                <mat-select formControlName="meses" multiple>
-                  <mat-option
-                    *ngFor="let mes of mesesDisponibles"
-                    [value]="mes.valor"
-                  >
-                    {{ mes.nombre }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </mat-grid-tile>
+    <!-- Sección para comparar ventas entre reporte e historial -->
+    <div>
+      <!-- Formulario para comparar historial y reporte -->
+      <form
+        [formGroup]="compararVentasForm"
+        (ngSubmit)="compararHistorialYReporte()"
+      >
+        <mat-form-field>
+          <mat-label>Fecha Inicio</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            formControlName="fechaInicio"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
 
-            <mat-grid-tile [colspan]="2">
-              <button
-                mat-raised-button
-                color="accent"
-                style="width: 100%"
-                [disabled]="compararVentasForm.invalid"
-              >
-                Comparar Ventas
-              </button>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </form>
+        <mat-form-field>
+          <mat-label>Fecha Fin</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker2"
+            formControlName="fechaFin"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
 
-        <!-- Resultados de comparación -->
-        <div *ngIf="resultadosComparacion.length > 0" class="mat-elevation-z2">
-          <h4>Resultados de Comparación</h4>
-          <table mat-table [dataSource]="resultadosComparacion">
-            <ng-container matColumnDef="totalMes">
-              <th mat-header-cell *matHeaderCellDef>Total Mes</th>
-              <td mat-cell *matCellDef="let row">{{ row.totalMes }}</td>
-            </ng-container>
+        <button mat-raised-button color="primary" type="submit">
+          Comparar
+        </button>
+      </form>
 
-            <ng-container matColumnDef="diferencia">
-              <th mat-header-cell *matHeaderCellDef>Diferencia</th>
-              <td mat-cell *matCellDef="let row">{{ row.diferencia }}</td>
-            </ng-container>
+      <!-- Tabla para mostrar los resultados de la comparación -->
+      <table
+        mat-table
+        [dataSource]="resultadosComparacion"
+        class="mat-elevation-z8"
+        *ngIf="resultadosComparacion.length > 0"
+      >
+        <ng-container matColumnDef="idVenta">
+          <th mat-header-cell *matHeaderCellDef>ID Venta</th>
+          <td mat-cell *matCellDef="let elemento">{{ elemento.idVenta }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="estadoComparacion">
-              <th mat-header-cell *matHeaderCellDef>Estado</th>
-              <td mat-cell *matCellDef="let row">
-                {{ row.estadoComparacion }}
-              </td>
-            </ng-container>
+        <ng-container matColumnDef="fechaVenta">
+          <th mat-header-cell *matHeaderCellDef>Fecha Venta</th>
+          <td mat-cell *matCellDef="let elemento">{{ elemento.fechaVenta }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="porcentajeCambio">
-              <th mat-header-cell *matHeaderCellDef>Porcentaje Cambio</th>
-              <td mat-cell *matCellDef="let row">
-                {{ row.porcentajeCambio }}%
-              </td>
-            </ng-container>
+        <ng-container matColumnDef="totalVenta">
+          <th mat-header-cell *matHeaderCellDef>Total Venta</th>
+          <td mat-cell *matCellDef="let elemento">
+            {{ elemento.totalVenta | currency }}
+          </td>
+        </ng-container>
 
-            <ng-container matColumnDef="icono">
-              <th mat-header-cell *matHeaderCellDef>Dirección</th>
-              <td mat-cell *matCellDef="let row">
-                <mat-icon
-                  [ngClass]="{
-                    increase: row.estadoComparacion === 'Aumentaron',
-                    decrease: row.estadoComparacion === 'Disminuyeron'
-                  }"
-                >
-                  {{
-                    row.estadoComparacion === "Aumentaron"
-                      ? "arrow_upward"
-                      : "arrow_downward"
-                  }}
-                </mat-icon>
-              </td>
-            </ng-container>
+        <ng-container matColumnDef="diferencia">
+          <th mat-header-cell *matHeaderCellDef>Diferencia</th>
+          <td mat-cell *matCellDef="let elemento">{{ elemento.diferencia }}</td>
+        </ng-container>
 
-            <tr
-              mat-header-row
-              *matHeaderRowDef="[
-                'totalMes',
-                'diferencia',
-                'estadoComparacion',
-                'porcentajeCambio',
-                'icono'
-              ]"
-            ></tr>
-            <tr
-              mat-row
-              *matRowDef="
-                let row;
-                columns: [
-                  'totalMes',
-                  'diferencia',
-                  'estadoComparacion',
-                  'porcentajeCambio',
-                  'icono'
-                ]
-              "
-            ></tr>
-          </table>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </mat-card-content>
-</mat-card>
+        <tr mat-header-row *matHeaderRowDef="columnasComparacion"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasComparacion"></tr>
+      </table>
+
+      <!-- Mensaje si no hay resultados -->
+      <p
+        *ngIf="resultadosComparacion.length === 0 && compararVentasForm.touched"
+      >
+        No hay datos para mostrar.
+      </p>
+    </div></mat-card-content
+  ></mat-card
+>
