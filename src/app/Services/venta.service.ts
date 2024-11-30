@@ -10,6 +10,7 @@ import { MesesDTO } from '../Interfaces/meses';
 import { CompararVentasResponse } from '../Interfaces/response-venta';
 import { ComparacionVentasDTO } from '../Interfaces/historial-reporte-comparacion';
 import { Response } from '../Interfaces/response';
+import { CategoriaVentasDTO } from '../Interfaces/venta-categoria';
 
 
 
@@ -38,6 +39,9 @@ export class VentaService {
     return this.http.get<ResponseApi>(`${this.urlApi}CompararHistorialYReporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
   }
 
+  ventasPorCategoria(fechaInicio: string, fechaFin: string): Observable<ResponseApi> {
+    return this.http.get<ResponseApi>(`${this.urlApi}VentasPorCategoria?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+  }
   
 
 

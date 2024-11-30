@@ -12,6 +12,7 @@ import { Venta } from 'src/app/Interfaces/venta';
 import { DetalleVenta } from 'src/app/Interfaces/detalle-venta';
 import { ComparacionVentasDTO } from 'src/app/Interfaces/historial-reporte-comparacion';
 import { Usuario } from 'src/app/Interfaces/usuario';
+import { CategoriaVentasDTO } from 'src/app/Interfaces/venta-categoria';
 import * as moment from 'moment';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 
@@ -57,6 +58,7 @@ export class VentaComponent implements OnInit {
     'totalVenta',
     'diferencia',
   ];
+  
 
   // Columnas de la tabla de detalles de venta
   columnasTabla: string[] = [
@@ -74,6 +76,10 @@ export class VentaComponent implements OnInit {
 
   // Resultados de la comparación
   resultadosComparacion: ComparacionVentasDTO[] = [];
+
+  // Apartado de totales por categoría
+  formularioTotalesPorCategoria: FormGroup;
+  listaTotalesPorCategoria: CategoriaVentasDTO[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -94,6 +100,12 @@ export class VentaComponent implements OnInit {
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required],
     });
+
+      // Inicializar el formulario para totales por categoría
+      this.formularioTotalesPorCategoria = this.fb.group({
+        fechaInicio: ['', Validators.required],
+        fechaFin: ['', Validators.required],
+      });
 
     // Obtener la lista de productos
     this._productoServicio.lista().subscribe({
@@ -380,4 +392,66 @@ export class VentaComponent implements OnInit {
     const usuario = this.listaUsuarios.find(u => u.idUsuario === idUsuario);
     return usuario ? usuario.nombreCompleto || '' : 'Desconocido';
   }
+
+  obtenerTotalesPorCategoria() {
+    const fechaInicioInput = this.formularioTotalesPorCategoria.value.fechaInicio;
+    const fechaFinInput = this.formularioTotalesPorCategoria.value.fechaFin;
+  
+    if (!fechaInicioInput || !fechaFinInput) {
+      Swal.fire('Error', 'Debe seleccionar un rango de fechas.', 'error');
+      return;
+    }
+  
+    const fechaInicio = moment(fechaInicioInput).format('DD/MM/YYYY');
+    const fechaFin = moment(fechaFinInput).format('DD/MM/YYYY');
+  
+    this._ventaServicio.ventasPorCategoria(fechaInicio, fechaFin).subscribe({
+      next: (response) => {
+        console.log('Respuesta de la API:', response); // Para depuración
+  
+        if (response.status) {
+          // Validar y normalizar los datos de la respuesta
+          if (response.value && Array.isArray(response.value)) {
+            this.listaTotalesPorCategoria = response.value; // Es un arreglo
+          } else if (response.value) {
+            this.listaTotalesPorCategoria = [response.value]; // Convierte un único objeto en un arreglo
+          } else {
+            this.listaTotalesPorCategoria = []; // En caso de que no haya datos
+          }
+  
+          // Construir el mensaje con los datos de las categorías
+          const detallesCategorias = this.listaTotalesPorCategoria
+            .map((categoria: CategoriaVentasDTO) => `
+              <b>Nombre Categoría:</b> ${categoria.nombreCategoria || 'Sin Nombre'}<br>
+              <b>Total Ventas:</b> ${categoria.totalVentas}<br>
+              <hr>
+            `)
+            .join('');
+  
+          // Mostrar el resultado en SweetAlert
+          Swal.fire({
+            title: 'Totales por Categoría',
+            html: `Se obtuvieron los siguientes resultados:<br>${detallesCategorias}`,
+            icon: 'success',
+            width: '600px', // Ajusta el ancho si es necesario
+          });
+        } else {
+          Swal.fire(
+            'Error',
+            'No se pudieron obtener los totales por categoría.',
+            'error'
+          );
+        }
+      },
+      error: (err) => {
+        console.error('Error en la solicitud:', err); // Para depuración
+        Swal.fire(
+          'Error',
+          'Hubo un problema al obtener los totales por categoría.',
+          'error'
+        );
+      },
+    });
+  }
+  
 }

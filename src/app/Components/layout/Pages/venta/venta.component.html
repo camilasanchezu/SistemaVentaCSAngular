@@ -80,6 +80,7 @@
             mat-raised-button
             color="primary"
             style="width: 80%"
+            type="submit"
             [disabled]="formularioProductoVenta.invalid"
           >
             <mat-icon mat-list-icon>add</mat-icon> Agregar
@@ -269,5 +270,78 @@
         No hay datos para mostrar.
       </p>
     </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Sección para consultar totales por categoría -->
+<mat-card style="margin: 20px 40px 40px 40px">
+  <mat-card-content>
+    <h2>Totales por Categoría</h2>
+    <form
+      [formGroup]="formularioTotalesPorCategoria"
+      (ngSubmit)="obtenerTotalesPorCategoria()"
+    >
+      <mat-grid-list cols="4" rowHeight="80px">
+        <mat-grid-tile>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Fecha Inicio</mat-label>
+            <input
+              matInput
+              [matDatepicker]="dateInicio"
+              formControlName="fechaInicio"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateInicio"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateInicio></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Fecha Fin</mat-label>
+            <input
+              matInput
+              [matDatepicker]="dateFin"
+              formControlName="fechaFin"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateFin"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateFin></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" type="submit">
+            Consultar
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+
+    <!-- Tabla de totales por categoría -->
+    <div class="mat-elevation-z2" *ngIf="listaTotalesPorCategoria.length > 0">
+      <table mat-table [dataSource]="listaTotalesPorCategoria">
+
+        <ng-container matColumnDef="nombreCategoria">
+          <th mat-header-cell *matHeaderCellDef>Categoría</th>
+          <td mat-cell *matCellDef="let element">{{ element.nombreCategoria }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalVentas">
+          <th mat-header-cell *matHeaderCellDef>Total Ventas</th>
+          <td mat-cell *matCellDef="let element">{{ element.totalVentas | currency }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['nombreCategoria', 'totalVentas']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['nombreCategoria', 'totalVentas']"></tr>
+      </table>
+    </div>
+    <p *ngIf="listaTotalesPorCategoria.length === 0 && formularioTotalesPorCategoria.touched">
+      No hay datos para mostrar.
+    </p>
   </mat-card-content>
 </mat-card>
