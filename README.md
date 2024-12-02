@@ -1,4 +1,4 @@
-# Sistema de Ventas con Login
+# Sistema de Ventas Core
 
 Este proyecto es un **Sistema de Ventas** que permite la gestión de productos, clientes y ventas. Los usuarios deben iniciar sesión para acceder al sistema. Está diseñado con una interfaz amigable y segura para manejar las transacciones.
 
