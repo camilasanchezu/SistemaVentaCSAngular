@@ -8,6 +8,7 @@ import { LayoutComponent } from './Components/layout/layout.component';
 import { DatePipe } from '@angular/common'; // Importamos DatePipe
 import { SharedModule } from './Reutilizable/shared/shared.module';
 
+
 // Importamos los módulos de Angular Material necesarios para MatTable
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -16,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, LayoutComponent],
@@ -33,6 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSlideToggleModule
+    
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

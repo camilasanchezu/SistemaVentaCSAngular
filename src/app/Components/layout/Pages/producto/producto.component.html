@@ -1,82 +1,134 @@
-
-<h1 style="margin:20px 0px 0px 40px"> Productos</h1>
-
-<mat-card style="margin:20px 40px 40px 40px">
-
-    <mat-card-title>
-        <button mat-raised-button color="primary" (click)="nuevoProducto()">
-            <mat-icon mat-list-icon>add</mat-icon>Nuevo Producto
-        </button>
-    </mat-card-title>
-
-    <mat-divider></mat-divider>
-
-    <mat-card-content class="dashboard-card-content">
-
-        <mat-form-field appearance="standard">
-            <mat-label>Buscar</mat-label>
-            <input matInput (keyup)="aplicarFiltroTabla($event)" #input>
-        </mat-form-field>
-
-        <div class="mat-elevation-z2">
-
-            <table mat-table [dataSource]="dataListaProductos">
-
-                <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre</th>
-                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="categoria">
-                    <th mat-header-cell *matHeaderCellDef> Categoria</th>
-                    <td mat-cell *matCellDef="let element"> {{element.descripcionCategoria}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="stock">
-                    <th mat-header-cell *matHeaderCellDef> Stock</th>
-                    <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="precio">
-                    <th mat-header-cell *matHeaderCellDef> Precio</th>
-                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="estado">
-                    <th mat-header-cell *matHeaderCellDef> Estado</th>
-                    <td mat-cell *matCellDef="let element"> {{element.esActivo == 1 ? 'Activo' : 'No activo'}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef style="width: 80px;"></th>
-                    <td mat-cell *matCellDef="let element">
-                        
-                        <button mat-icon-button color="primary" (click)="editarProducto(element)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="warn" (click)="eliminarProducto(element)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
-                <tr mat-row *matRowDef="let row; columns : columnasTabla;"></tr>
-
-                <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell" colspan="4">No hay datos que coincidan con el filtro "{{input.value}}"</td>
-                </tr>
-
-            </table>
-
-            <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons>
-            </mat-paginator>
-
-
+<div class="dashboard">
+    <h2>Dashboard</h2>
+    
+    <!-- Contenedor de Stock Total y las barras de categorías -->
+    <div class="dashboard-content">
+      <div class="stock-total">
+        <h3>Stock Total: {{ stockTotal }}</h3>
+        <!-- Barra de progreso vertical -->
+        <div class="stock-bar-container">
+          <div class="stock-bar" [style.height]="porcentajeStock + '%'"></div>
         </div>
+      </div>
+  
+      <!-- Contenedor de las categorías al lado del stock -->
+      <div class="categorias-container">
+        <div *ngFor="let categoria of categorias" class="categoria-bar-container">
+          <!-- Nombre de la categoría -->
+          <span class="categoria-nombre">{{ categoria.nombre }}</span>
+          
+          <!-- Mostrar la cantidad de productos en la categoría -->
+          <span class="categoria-cantidad">Productos: {{ categoria.cantidad }}</span>
+          
+          <!-- Mostrar el stock total de la categoría -->
+          <span class="categoria-stock">Stock: {{ categoria.stock }}</span>
+      
+          <div class="categoria-bar" [style.height]="(categoria.stock / stockTotal) * 100 + '%'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<h1 style="margin: 20px 0px 0px 40px">Productos</h1>
+
+<mat-card style="margin: 20px 40px 40px 40px">
+  <mat-card-title>
+    <button mat-raised-button color="primary" (click)="nuevoProducto()">
+      <mat-icon mat-list-icon>add</mat-icon>Nuevo Producto
+    </button>
+    <div class="modo-oscuro-toggle">
+      <label>
+        <input
+          type="checkbox"
+          (change)="cambiarModoOscuro()"
+          [checked]="modoOscuro"
+        />
+        Modo Oscuro
+      </label>
+    </div>
+  </mat-card-title>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content class="dashboard-card-content">
+    <mat-form-field appearance="standard">
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="aplicarFiltroTabla($event)" #input />
+    </mat-form-field>
+
+    <div class="mat-elevation-z2">
+      <table mat-table [dataSource]="dataListaProductos">
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef>Categoria</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.descripcionCategoria }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="stock">
+          <th mat-header-cell *matHeaderCellDef>Stock</th>
+          <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef>Precio</th>
+          <td mat-cell *matCellDef="let element">{{ element.precio }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let producto">
+            <button
+              mat-raised-button
+              [color]="producto.esActivo === 1 ? 'primary' : 'warn'"
+              (click)="toggleEstado(producto)"
+            >
+              {{ producto.esActivo === 1 ? "Activo" : "No activo" }}
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef style="width: 80px"></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="editarProducto(element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="eliminarProducto(element)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasTabla"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No hay datos que coincidan con el filtro "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </mat-card-content>
 
 
-    </mat-card-content>
-
+  
 </mat-card>

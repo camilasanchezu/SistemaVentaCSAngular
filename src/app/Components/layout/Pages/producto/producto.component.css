@@ -1,8 +1,100 @@
-table{
-    width: 100%;
+table {
+  width: 100%;
 }
 
-.mat-form-field{
-    font-size: 14px;
-    width: 100%;
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Estilos para el modo oscuro */
+.modo-oscuro {
+  background-color: #121212;
+  color: white;
+}
+
+.modo-oscuro .mat-header-cell,
+.modo-oscuro .mat-cell {
+  background-color: #333;
+}
+
+.modo-oscuro .mat-paginator {
+  background-color: #333;
+}
+
+.modo-oscuro .mat-slide-toggle {
+  background-color: #444;
+}
+
+.modo-oscuro-toggle {
+  color: white;
+}
+
+.dashboard {
+  text-align: left;
+  margin-left: 40px;
+}
+
+.dashboard-content {
+  display: flex; /* Usamos flexbox para colocar las barras una al lado de la otra */
+  align-items: flex-start; /* Alineamos las barras al inicio */
+  gap: 40px; /* Espacio entre las barras */
+  margin-top: 20px;
+}
+
+.stock-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado horizontal de la barra de stock */
+}
+
+.stock-bar-container {
+  width: 40px; /* Ancho de la barra */
+  height: 200px; /* Altura máxima de la barra */
+  background-color: #ddd; /* Color de fondo de la barra */
+  margin-top: 10px;
+  position: relative;
+  border-radius: 10px;
+}
+
+.stock-bar {
+  width: 100%;
+  background-color: #e91e63; /* Color fucsia de la barra */
+  border-radius: 10px;
+  transition: height 0.3s ease-in-out; /* Transición para animar el cambio de altura */
+}
+
+.categorias-container {
+  display: flex; /* Usamos flexbox para colocar las barras de categorías una al lado de la otra */
+  gap: 20px; /* Espacio entre las barras de categorías */
+  flex-wrap: wrap; /* Permitimos que las barras se acomoden en varias filas si es necesario */
+  align-items: flex-start; /* Alineamos las barras al inicio */
+}
+
+.categoria-bar-container {
+  display: flex;
+  flex-direction: column; /* Colocamos el nombre encima de la barra */
+  align-items: center; /* Centramos las barras y los nombres */
+  margin-top: 10px;
+  height: 200px; /* Altura máxima de la barra */
+  width: 200px; /* Ancho fijo para las barras de categoría */
+}
+
+.categoria-nombre {
+  font-weight: bold;
+  margin-bottom: 5px; /* Espacio entre el nombre y la barra */
+}
+
+.categoria-cantidad {
+  font-size: 12px;
+  margin-bottom: 5px; /* Espacio entre la cantidad y la barra */
+}
+
+.categoria-bar {
+  height: fit-content; /* Altura de la barra de categoría */
+  background-color: #984caf; /* Color verde para la barra de categorías */
+  border-radius: 10px; /* Borde redondeado similar a .stock-bar */
+  transition: width 0.3s ease-in-out; /* Transición para animar el cambio de ancho */
+  width: 30%; /* Inicialmente, el ancho es 0% y se ajustará proporcionalmente */
+  margin-top: 1px;
 }
