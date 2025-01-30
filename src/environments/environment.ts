@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  endpoint: 'http://localhost:5136/api/',
+  endpoint: 'https://sistemaventaapi20250130010958.azurewebsites.net/api/',
 };
 
 /*
