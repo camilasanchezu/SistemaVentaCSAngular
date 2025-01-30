@@ -1,4 +1,4 @@
-# Sistema de Ventas con Login
+# Sistema de Ventas Core
 
 Este proyecto es un **Sistema de Ventas** que permite la gestión de productos, clientes y ventas. Los usuarios deben iniciar sesión para acceder al sistema. Está diseñado con una interfaz amigable y segura para manejar las transacciones.
 
@@ -14,21 +14,17 @@ Este proyecto es un **Sistema de Ventas** que permite la gestión de productos, 
 ## Tecnologías Utilizadas
 
 - **Backend**:
-  - Node.js con Express
-  - Base de datos: MySQL/MongoDB
-  - Autenticación: JWT (JSON Web Tokens) o sesiones
+  - ASP .Net
+  - Base de datos: Microsoft SQL Server 
+  
 - **Frontend**:
-  - Angular/React/Vue.js
+  - Angular
   - Bootstrap o Material UI para el diseño
 - **Otros**:
-  - Docker para la contenedorización
   - Git y GitHub para control de versiones
-
-## Requisitos Previos
-
-- [Node.js](https://nodejs.org/)
-- [MySQL](https://www.mysql.com/) o [MongoDB](https://www.mongodb.com/)
-- [Docker](https://www.docker.com/) (opcional para contenedorización)
+- **Deployado**
+- Vercel
+- Azure
 
 ## Instalación
 
@@ -75,39 +71,38 @@ npm start
 
 ## Uso
 
-1. Abre tu navegador y accede a `http://localhost:4200` (o el puerto configurado).
+1. Abre tu navegador y accede a `http://localhost:4200`.
 2. Inicia sesión con las credenciales proporcionadas.
 3. Utiliza las siguientes funcionalidades:
 
 ### Autenticación
 
 - **Login**: Los usuarios pueden iniciar sesión utilizando su nombre de usuario y contraseña.
-- **Control de acceso**: Dependiendo del rol del usuario (administrador o vendedor), se tendrá acceso a diferentes secciones del sistema.
+- **Control de acceso**: Dependiendo del rol del usuario (administrador o empleado), se tendrá acceso a diferentes secciones del sistema.
 
 ### Gestión de Productos
 
 - **Crear producto**: Ingresa la información del nuevo producto, como nombre, precio y categoría.
-- **Actualizar producto**: Edita los detalles de productos existentes.
 - **Eliminar producto**: Borra productos del sistema.
 - **Ver productos**: Consulta el listado de productos disponibles.
 
-### Gestión de Clientes
+### Gestión de Usuarios
 
-- **Añadir cliente**: Crea un nuevo registro de cliente con la información personal y de contacto.
-- **Actualizar cliente**: Modifica la información de clientes existentes.
-- **Eliminar cliente**: Elimina un cliente del sistema.
-- **Ver clientes**: Revisa la lista de todos los clientes registrados.
+- **Añadir Usuario**: Crea un nuevo registro de usuario con la información personal y de contacto.
+- **Actualizar cliente**: Modifica la información de usuario existentes.
+- **Eliminar cliente**: Elimina un usuario del sistema.
+- **Ver clientes**: Revisa la lista de todos los usuarios registrados.
 
 ### Gestión de Ventas
 
 - **Realizar venta**: Registra una nueva venta seleccionando productos y cliente.
 - **Consultar ventas**: Visualiza las ventas realizadas, incluyendo detalles como fecha, cliente y productos vendidos.
-- **Filtrar ventas**: Filtra las ventas por fecha, cliente o producto.
+- **Filtrar ventas**: Filtra las ventas por fechas, compara informacion de reportes y el hsitorial de ventas
 
 ### Reportes
 
-- **Generar reportes**: Crea informes de ventas basados en filtros, como intervalo de fechas o productos más vendidos.
-- **Descargar reportes**: Exporta los reportes generados en formato PDF o Excel.
+- **Generar reportes**: Crea informes de ventas basados en filtros, se puede conocer el producto mas vendido y la categoría más vendida.
+- **Descargar reportes**: Exporta los reportes generados en formato Excel.
 
 ## Contribución
 
